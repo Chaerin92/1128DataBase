@@ -1,0 +1,75 @@
+-- 1. 데이터베이스 생성 및 사용
+CREATE DATABASE 202445095;
+USE 202445095;
+
+-- 2. parent 테이블
+CREATE TABLE parent (
+    parent_id BIGINT NOT NULL AUTO_INCREMENT,
+    age INT,
+    name VARCHAR(15),
+    PRIMARY KEY (parent_id)
+);
+
+-- 3. child 테이블
+CREATE TABLE child (
+    child_id BIGINT NOT NULL AUTO_INCREMENT,
+    parent_id BIGINT,
+    age INT,
+    grade INT,
+    name VARCHAR(15),
+    PRIMARY KEY (child_id),
+    CONSTRAINT fk_child_parent FOREIGN KEY (parent_id) REFERENCES parent (parent_id) ON DELETE SET NULL
+);
+
+-- 4. student 테이블
+CREATE TABLE student (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    age INT,
+    gender BIT(1),
+    created DATETIME,
+    name VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
+-- 5. posts 테이블
+CREATE TABLE posts (
+    id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(200),
+    content TEXT,
+    views INT DEFAULT 0,
+    created_at DATETIME,
+    updated_at DATETIME,
+    category ENUM('GENERAL', 'NOTICE', 'QNA'),
+    PRIMARY KEY (id)
+);
+
+-- 6. question 테이블
+CREATE TABLE question (
+    question_id BIGINT NOT NULL AUTO_INCREMENT,
+    subject VARCHAR(200),
+    content TEXT,
+    created DATETIME(6),
+    PRIMARY KEY (question_id)
+);
+
+-- 7. answer 테이블
+CREATE TABLE answer (
+    answer_id BIGINT NOT NULL AUTO_INCREMENT,
+    question_id BIGINT,
+    content TEXT,
+    created DATETIME,
+    PRIMARY KEY (answer_id),
+    CONSTRAINT fk_answer_question FOREIGN KEY (question_id) REFERENCES question (question_id) ON DELETE CASCADE
+);
+
+-- 8. tool_survey 테이블
+CREATE TABLE tool_survey (
+    survey_id BIGINT NOT NULL AUTO_INCREMENT,
+    created DATETIME(6),
+    nickname VARCHAR(15),
+    note VARCHAR(150),
+    experience VARCHAR(255),
+    preferred_tool VARCHAR(255),
+    team_mode VARCHAR(255),
+    PRIMARY KEY (survey_id)
+);
